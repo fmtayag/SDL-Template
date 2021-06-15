@@ -11,7 +11,7 @@ SDL_Texture* loadTexture(SDL_Renderer* renderer, auto path) {
     return tImg;
 }
 
-void draw_circle(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
+void drawCircle(SDL_Renderer* renderer, int x, int y, int radius, SDL_Color color)
 {
     // Thanks to Ggsgn Hdjwngnf from SO.
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
@@ -29,6 +29,10 @@ void draw_circle(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color col
     }
 }
 
+void drawRectangle(SDL_Renderer* renderer, SDL_Rect rect, SDL_Color color) {
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    SDL_RenderFillRect(renderer, &rect);
+}
 
 
 int main(int argv, char **args) {
@@ -72,9 +76,21 @@ int main(int argv, char **args) {
 	int now;
 
 	SDL_Color green;
-	green.r = 255;
+	green.r = 0;
 	green.g = 255;
 	green.b = 0;
+
+	SDL_Color red;
+	red.r = 255;
+	red.g = 0;
+	red.b = 0;
+
+	// Rectangle
+	SDL_Rect r;
+	r.x = 10;
+	r.y = 10;
+	r.w = 20;
+	r.h = 20;
 
     while (isRunning)
 	{
@@ -123,10 +139,14 @@ int main(int argv, char **args) {
 
 		// Draw to screen
 		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 		SDL_RenderCopy(renderer, tBackground, NULL, NULL);
 		SDL_RenderCopy(renderer, currentImg, NULL, &myRect);
-		draw_circle(renderer, myRect.x, myRect.y, 30, green);
+
+		// Draw shapes
+		drawCircle(renderer, myRect.x, myRect.y, 30, green);
+		drawCircle(renderer, 30, 50, 30, red);
+        drawRectangle(renderer, r, red);
+
 		SDL_RenderPresent(renderer);
 	}
 
