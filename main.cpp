@@ -11,6 +11,26 @@ SDL_Texture* loadTexture(SDL_Renderer* renderer, auto path) {
     return tImg;
 }
 
+void draw_circle(SDL_Renderer *renderer, int x, int y, int radius, SDL_Color color)
+{
+    // Thanks to Ggsgn Hdjwngnf from SO.
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+    for (int w = 0; w < radius * 2; w++)
+    {
+        for (int h = 0; h < radius * 2; h++)
+        {
+            int dx = radius - w; // horizontal offset
+            int dy = radius - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (radius * radius))
+            {
+                SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+            }
+        }
+    }
+}
+
+
+
 int main(int argv, char **args) {
 
     // Init
@@ -50,6 +70,11 @@ int main(int argv, char **args) {
 	int animationTimer = SDL_GetTicks();
 	int animationDelay = 100;
 	int now;
+
+	SDL_Color green;
+	green.r = 255;
+	green.g = 255;
+	green.b = 0;
 
     while (isRunning)
 	{
@@ -98,9 +123,10 @@ int main(int argv, char **args) {
 
 		// Draw to screen
 		SDL_RenderClear(renderer);
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+		SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
 		SDL_RenderCopy(renderer, tBackground, NULL, NULL);
 		SDL_RenderCopy(renderer, currentImg, NULL, &myRect);
+		draw_circle(renderer, myRect.x, myRect.y, 30, green);
 		SDL_RenderPresent(renderer);
 	}
 
