@@ -3,6 +3,14 @@
 #include <vector>
 #include <iterator>
 
+SDL_Texture* loadTexture(SDL_Renderer* renderer, auto path) {
+    // TODO: Change path's type to something not auto. But it's fine for now.
+    SDL_Surface* img = SDL_LoadBMP(path);
+    SDL_Texture* tImg = SDL_CreateTextureFromSurface(renderer, img);
+    SDL_FreeSurface(img);
+    return tImg;
+}
+
 int main(int argv, char **args) {
 
     // Init
@@ -13,17 +21,9 @@ int main(int argv, char **args) {
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
 	// Load textures
-	SDL_Surface *img1 = SDL_LoadBMP("images/player.bmp");
-	SDL_Texture *tImg1 = SDL_CreateTextureFromSurface(renderer, img1);
-	SDL_FreeSurface(img1);
-
-	SDL_Surface *img2 = SDL_LoadBMP("images/player1.bmp");
-	SDL_Texture *tImg2 = SDL_CreateTextureFromSurface(renderer, img2);
-	SDL_FreeSurface(img2);
-
-	SDL_Surface *background = SDL_LoadBMP("images/background.bmp");
-	SDL_Texture *tBackground = SDL_CreateTextureFromSurface(renderer, background);
-	SDL_FreeSurface(background);
+	SDL_Texture *tImg1 = loadTexture(renderer, "images/player.bmp");
+	SDL_Texture *tImg2 = loadTexture(renderer, "images/player1.bmp");
+	SDL_Texture *tBackground = loadTexture(renderer, "images/background.bmp");
 
 	// Create texture's rect
 	SDL_Rect myRect;
